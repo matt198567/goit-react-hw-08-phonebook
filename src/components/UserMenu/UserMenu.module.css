@@ -1,0 +1,26 @@
+.userMenu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.userMenu .username {
+  font-weight: 700;
+}
+
+.userMenu button {
+  width: 30px;
+  margin: 0 auto;
+  height: 30px;
+  border: none;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.userMenu button:hover {
+  fill: #6c63ff;
+}
