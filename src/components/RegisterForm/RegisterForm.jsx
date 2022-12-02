@@ -15,7 +15,7 @@ export const RegisterForm = () => {
 
     dispatch(register({ name, email, password }));
 
-    form.reset();
+    // form.reset();
   };
 
   return (

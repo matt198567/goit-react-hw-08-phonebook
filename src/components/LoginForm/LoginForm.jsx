@@ -14,7 +14,7 @@ const LoginForm = () => {
       return;
     } else {
       dispatch(logIn({ email, password }));
-      form.reset();
+      // form.reset();
     }
   };
 
