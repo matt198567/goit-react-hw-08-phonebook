@@ -1,23 +1,33 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from 'redux/auth/operations';
+import { selectLogInError } from 'redux/auth/selectors';
+import { updateErrorLogIn } from 'redux/auth/slice';
 import styles from './LoginForm.module.css';
+import { useEffect } from 'react';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const error = useSelector(selectLogInError);
+
+  useEffect(() => {
+    dispatch(updateErrorLogIn(error));
+    return () => {
+      dispatch(updateErrorLogIn(null));
+    };
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    if ((email && password) === '') {
-      return;
-    } else {
-      dispatch(logIn({ email, password }));
-      // form.reset();
-    }
-  };
+    const form = e.currentTarget;
 
+    let credentials = {
+      email: form.elements.email.value,
+      password: form.elements.password.value,
+    };
+    console.log(credentials);
+    dispatch(logIn(credentials));
+    //form.reset();
+  };
   return (
     <div className={styles.loginBox}>
       <div className={styles.loginForm}>
@@ -36,6 +46,12 @@ const LoginForm = () => {
           <input type="password" name="password" />
           <button type="submit">Log In</button>
         </form>
+        {error && (
+          <div className={styles.errorMessage}>
+            Are you registered? If yes, check the data you entered, if no,
+            register
+          </div>
+        )}
       </div>
       <svg
         className={styles.loginSvg}

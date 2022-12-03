@@ -9,6 +9,14 @@ const authSlice = createSlice({
     isLoggedIn: false,
     isRefreshing: false,
   },
+  reducers: {
+    updateErrorLogIn(state, action) {
+      state.authErrorLogIn = action.payload;
+    },
+    updateErrorRegister(state, action) {
+      state.authErrorRegister = action.payload;
+    },
+  },
   extraReducers: {
     [register.fulfilled](state, { payload }) {
       state.user = payload.user;
@@ -40,3 +48,4 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
+export const { updateErrorLogIn, updateErrorRegister } = authSlice.actions;

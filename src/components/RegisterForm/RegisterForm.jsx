@@ -1,9 +1,21 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from 'redux/auth/operations';
+import { selectRegisterError } from 'redux/auth/selectors';
+import { useEffect } from 'react';
+import { updateErrorRegister } from 'redux/auth/slice';
 import styles from './RegisterForm.module.css';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
+
+  const error = useSelector(selectRegisterError);
+
+  useEffect(() => {
+    dispatch(updateErrorRegister(error));
+    return () => {
+      dispatch(updateErrorRegister(null));
+    };
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -14,8 +26,9 @@ export const RegisterForm = () => {
     const password = form.password.value;
 
     dispatch(register({ name, email, password }));
-
-    // form.reset();
+    if (error !== null) {
+      form.reset();
+    }
   };
 
   return (
@@ -40,6 +53,11 @@ export const RegisterForm = () => {
           <input type="password" name="password" />
           <button type="submit">Register</button>
         </form>
+        {error && (
+          <div className={styles.error}>
+            Your data isn`t valid. Please, check correctness and try again
+          </div>
+        )}
       </div>
       <svg
         className={styles.registerSvg}
@@ -179,3 +197,5 @@ export const RegisterForm = () => {
     </div>
   );
 };
+
+// export default RegisterForm;
